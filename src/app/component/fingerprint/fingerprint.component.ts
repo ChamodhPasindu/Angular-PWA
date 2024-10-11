@@ -1,14 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-fingerprint',
   templateUrl: './fingerprint.component.html',
   styleUrls: ['./fingerprint.component.scss'],
 })
-export class FingerprintComponent {
+export class FingerprintComponent implements OnInit {
+  fingerprintAvailable: boolean = false;
+
+  ngOnInit(): void {
+    this.checkFingerprintSupport();
+  }
+
+  checkFingerprintSupport() {
+    if (
+      window.PublicKeyCredential &&
+      PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable
+    ) {
+      // Check if the device has a built-in biometric authenticator
+      PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()
+        .then((available) => {
+          this.fingerprintAvailable = available;
+          if (available) {
+            alert('Fingerprint scanner or biometric authenticator is available.');
+          } else {
+            alert('Fingerprint scanner or biometric authenticator is NOT available.');
+          }
+        })
+        .catch((error) => {
+          console.error('Error checking biometric availability:', error);
+        });
+    } else {
+      alert('WebAuthn not supported in this browser.');
+    }
+  }
+
   authenticate() {
     // Assuming you have WebAuthn support in the browser
-    if (navigator.credentials && navigator.credentials.create) {
+    if (this.fingerprintAvailable) {
       const publicKey: PublicKeyCredentialCreationOptions = {
         challenge: new Uint8Array(32), // Replace with actual challenge data from your server
         rp: {
