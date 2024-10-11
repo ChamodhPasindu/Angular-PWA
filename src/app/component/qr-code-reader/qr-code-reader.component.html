@@ -1,1 +1,10 @@
-<p>qr-code-reader works!</p>
+<mat-card class="card">
+    <mat-card-header>
+      <mat-card-title>QR Code Scanner</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <zxing-scanner (scanSuccess)="onScanSuccess($event)"></zxing-scanner>
+      <p>Scan Result: {{ scanResult }}</p>
+    </mat-card-content>
+  </mat-card>
+  

@@ -1,1 +1,11 @@
-<p>face-detection works!</p>
+<mat-card class="card">
+    <mat-card-header>
+      <mat-card-title>Face ID Detection</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Enable camera and capture face for authentication.</p>
+      <video #videoElement autoplay></video>
+      <button mat-raised-button color="primary" (click)="startFaceRecognition()">Start Face Detection</button>
+    </mat-card-content>
+  </mat-card>
+  
